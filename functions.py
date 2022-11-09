@@ -4,6 +4,37 @@ import expense
 import json
 
 
+def json_update(expense_list):
+    json_expense_list = json.dumps(expense_list)
+    with open('json_data.txt', 'w') as f:
+        f.write(json_expense_list)
+
+    os.system('cls')
+    return
+
+
+def expense_edit_choice(user_edit_choice, expense_list, editor):
+    match editor:
+        case 1:
+            print('Editing Name...\n')
+            print('What would you like the new name to be?')
+            expense_list[user_edit_choice][1] = input('New Name: ')
+            json_update(expense_list)
+
+            os.system('cls')
+            print('Name Changed!')
+            input('Press Enter to continue...')
+        case 2:
+            print('Editing Cost...\n')
+            print('What would you like the new cost to be?')
+            expense_list[user_edit_choice][2] = int(input("New Cost: $"))
+            json_update(expense_list)
+
+            os.system('cls')
+            print('Cost Changed!')
+            input('Press Enter to continue...')
+
+
 def review_expenses(expense_list):
     if len(expense_list) == 0:
         print("Whoops! There's nothing here yet! Try adding some expenses first.")
@@ -36,14 +67,12 @@ def add_expenses(expense_list):
     expense_list.append(added_expense)
 
     # Update JSON
-    json_expense_list = json.dumps(expense_list)
-    with open('json_data.txt', 'w') as f:
-        f.write(json_expense_list)
+    json_update(expense_list)
 
-    print('Expense Added!')
+    print("Expense Added!")
     input("Press Enter to continue...")
-    os.system('cls')
     return
+
 
 def edit_expenses(expense_list):
     if len(expense_list) == 0:
@@ -68,23 +97,3 @@ def edit_expenses(expense_list):
 
         os.system('cls')
         expense_edit_choice(user_edit_choice, expense_list, editor)
-
-
-def expense_edit_choice(user_edit_choice, expense_list, editor):
-    match editor:
-        case '1':
-            print('Editing Name...\n')
-            print('What would you like the new name to be?')
-            expense_list[user_edit_choice][1] = input('New Name: ')
-
-            os.system('cls')
-            print('Name Changed!')
-            input('Press Enter to continue...')
-        case '2':
-            print('Editing Cost...\n')
-            print('What would you like the new cost to be?')
-            expense_list[user_edit_choice][2] = int(input("New Cost: $"))
-
-            os.system('cls')
-            print('Cost Changed!')
-            input('Press Enter to continue...')

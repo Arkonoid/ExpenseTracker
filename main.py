@@ -1,8 +1,16 @@
+import json
+
 import functions
 import os
 import expense
 
 list_of_expenses = []
+isExist = os.path.exists('json_data.txt')
+
+if isExist:
+    with open('json_data.txt','r') as r:
+        list_of_expenses = json.load(r)
+
 end_program = False
 
 while not end_program:

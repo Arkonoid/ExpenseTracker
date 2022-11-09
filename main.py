@@ -1,16 +1,33 @@
-# This is a sample Python script.
+import functions
+import os
+import expense
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+list_of_expenses = []
+end_program = False
 
+while not end_program:
+    print('Hello! Welcome to The Expense Tracker')
+    print('-------------------------------------')
+    print('\n'
+          'What would you like to do? Please select an option below:\n'
+          '1) Review Expenses\n'
+          '2) Add an Expense\n'
+          '3) Edit an Expense\n'
+          '4) Delete an Expense\n \n'
+          'Press any other button to close'
+          '\n')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    user_choice = input("Selection: ")
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    match user_choice:
+        case '1':
+            os.system('cls')
+            functions.review_expenses(list_of_expenses)
+        case '2':
+            os.system('cls')
+            functions.add_expenses(list_of_expenses)
+        case '3':
+            os.system('cls')
+            functions.edit_expenses(list_of_expenses)
+        case other:
+            end_program = True

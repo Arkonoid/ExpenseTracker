@@ -37,5 +37,8 @@ while not end_program:
         case '3':
             os.system('cls')
             functions.edit_expenses(list_of_expenses)
+        case '4':
+            os.system('cls')
+            functions.delete_expense(list_of_expenses)
         case other:
             end_program = True

@@ -5,11 +5,17 @@ import os
 import expense
 
 list_of_expenses = []
-isExist = os.path.exists('json_data.txt')
+monthly_income = 0
+is_exist_expenses = os.path.exists('json_expenses.txt')
+is_exist_income = os.path.exists('json_income.txt')
 
-if isExist:
-    with open('json_data.txt','r') as r:
+if is_exist_expenses:
+    with open('json_expenses.txt', 'r') as r:
         list_of_expenses = json.load(r)
+
+if is_exist_income:
+    with open('json_income.txt', 'r') as r:
+        monthly_income = json.load(r)
 
 end_program = False
 
@@ -21,7 +27,9 @@ while not end_program:
           '1) Review Expenses\n'
           '2) Add an Expense\n'
           '3) Edit an Expense\n'
-          '4) Delete an Expense\n \n'
+          '4) Delete an Expense\n'
+          '5) Set Monthly Income\n'
+          '6) Calculate Net Income\n \n'
           'Press any other button to close'
           '\n')
 
@@ -40,5 +48,11 @@ while not end_program:
         case '4':
             os.system('cls')
             functions.delete_expense(list_of_expenses)
+        case '5':
+            os.system('cls')
+            monthly_income = functions.add_income()
+        case '6':
+            os.system('cls')
+            functions.calculate_net_income(monthly_income,list_of_expenses)
         case other:
             end_program = True

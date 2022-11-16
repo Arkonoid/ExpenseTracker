@@ -1,13 +1,21 @@
 # This contains all the important functions for the main program
 import os
-import expense
 import json
 
 
-def json_update(expense_list):
+def json_expense_update(expense_list):
     json_expense_list = json.dumps(expense_list)
-    with open('json_data.txt', 'w') as f:
+    with open('json_expenses.txt', 'w') as f:
         f.write(json_expense_list)
+
+    os.system('cls')
+    return
+
+
+def json_income_update(monthly_income):
+    json_monthly_income = json.dumps(monthly_income)
+    with open('json_income.txt', 'w') as f:
+        f.write(json_monthly_income)
 
     os.system('cls')
     return
@@ -19,7 +27,7 @@ def expense_edit_choice(user_edit_choice, expense_list, editor):
             print('Editing Name...\n')
             print('What would you like the new name to be?')
             expense_list[user_edit_choice][0] = input('New Name: ')
-            json_update(expense_list)
+            json_expense_update(expense_list)
 
             os.system('cls')
             print('Name Changed!')
@@ -28,7 +36,7 @@ def expense_edit_choice(user_edit_choice, expense_list, editor):
             print('Editing Cost...\n')
             print('What would you like the new cost to be?')
             expense_list[user_edit_choice][1] = int(input("New Cost: $"))
-            json_update(expense_list)
+            json_expense_update(expense_list)
 
             os.system('cls')
             print('Cost Changed!')
@@ -60,13 +68,13 @@ def add_expenses(expense_list):
     # Get the Cost
     print('\n'
           'How much is the expense every month?')
-    cost_input = int(input('Cost: $'))
+    cost_input = float(input('Cost: $'))
 
     added_expense = [name_input, cost_input]
     expense_list.append(added_expense)
 
     # Update JSON
-    json_update(expense_list)
+    json_expense_update(expense_list)
 
     print("Expense Added!")
     input("Press Enter to continue...")
@@ -92,7 +100,7 @@ def edit_expenses(expense_list):
               f"1) Name: {expense_list[user_edit_choice][0]}"
               f"2) Cost: ${expense_list[user_edit_choice][1]}/month")
 
-        editor = int(input("Selection: "))
+        editor = float(input("Selection: "))
 
         os.system('cls')
         expense_edit_choice(user_edit_choice, expense_list, editor)
@@ -120,10 +128,31 @@ def delete_expense(expense_list):
             if user_confirmation == 'y' or user_confirmation == 'Y':
                 confirmation = True
                 expense_list.remove(expense_list[user_delete_choice])
-                json_update(expense_list)
+                json_expense_update(expense_list)
                 input("Expense Deleted\nPress Enter to continue...")
             elif user_confirmation == 'n' or user_confirmation == 'N':
                 confirmation = True
                 input("Aborting deletion\nPress Enter to continue...")
             else:
                 print("Incorrect choice. Please choose 'y' or 'Y' for Yes/'n' or 'N' for No")
+
+
+def add_income():
+    print("Set your monthly income.")
+    monthly_income = int(input("How much do you make a month? (Rounded to nearest dollar): $"))
+    json_income_update(monthly_income)
+    return monthly_income
+
+
+def print_monthly_income(monthly_income):
+    print(f'${monthly_income}')
+    return
+
+
+def calculate_net_income(monthly_income, expense_list):
+    net_income = monthly_income
+
+    for i in expense_list:
+        net_income = float(net_income) - float(i[1])
+
+    print("The net income after expenses is: $" + str(net_income))

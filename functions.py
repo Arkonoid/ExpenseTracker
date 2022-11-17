@@ -3,6 +3,26 @@ import os
 import json
 
 
+def empty_list_check(expense_list):
+    if len(expense_list) == 0:
+        print("Whoops! There's nothing here yet! Try adding some expenses first.")
+        return True
+    else:
+        return False
+
+
+def input_number(text):
+    bad_input = True
+    while bad_input:
+        temp = input(text)
+        try:
+            temp = float(temp)
+            bad_input = False
+            return temp
+        except:
+            print("Sorry, you have to enter a number!")
+
+
 def json_expense_update(expense_list):
     json_expense_list = json.dumps(expense_list)
     with open('json_expenses.txt', 'w') as f:
@@ -21,6 +41,15 @@ def json_income_update(monthly_income):
     return
 
 
+def json_savings_update(current_savings):
+    json_current_savings = json.dumps(current_savings)
+    with open('json_savings.txt', 'w') as f:
+        f.write(json_current_savings)
+
+    os.system('cls')
+    return
+
+
 def expense_edit_choice(user_edit_choice, expense_list, editor):
     match editor:
         case 1:
@@ -34,8 +63,8 @@ def expense_edit_choice(user_edit_choice, expense_list, editor):
             input('Press Enter to continue...')
         case 2:
             print('Editing Cost...\n')
-            print('What would you like the new cost to be?')
-            expense_list[user_edit_choice][1] = int(input("New Cost: $"))
+            print('What would you like the new cost to be? ')
+            expense_list[user_edit_choice][1] = input_number("Cost: $")
             json_expense_update(expense_list)
 
             os.system('cls')
@@ -46,7 +75,6 @@ def expense_edit_choice(user_edit_choice, expense_list, editor):
 def review_expenses(expense_list):
     if len(expense_list) == 0:
         print("Whoops! There's nothing here yet! Try adding some expenses first.")
-        input('Press Enter to continue...')
     else:
         print("Expenses")
         print('-----------------')
@@ -68,7 +96,7 @@ def add_expenses(expense_list):
     # Get the Cost
     print('\n'
           'How much is the expense every month?')
-    cost_input = float(input('Cost: $'))
+    cost_input = input_number("Cost: $")
 
     added_expense = [name_input, cost_input]
     expense_list.append(added_expense)
@@ -95,10 +123,10 @@ def edit_expenses(expense_list):
         user_edit_choice = int(input("Selection: ")) - 1
 
         os.system('cls')
-        print("What about this expense would you like to edit?"
-              ""
-              f"1) Name: {expense_list[user_edit_choice][0]}"
-              f"2) Cost: ${expense_list[user_edit_choice][1]}/month")
+        print("What about this expense would you like to edit?\n"
+              "\n"
+              f"1) Name: {expense_list[user_edit_choice][0]}\n"
+              f"2) Cost: ${expense_list[user_edit_choice][1]}/month\n\n")
 
         editor = float(input("Selection: "))
 
@@ -156,3 +184,105 @@ def calculate_net_income(monthly_income, expense_list):
         net_income = float(net_income) - float(i[1])
 
     print("The net income after expenses is: $" + str(net_income))
+
+
+def set_current_savings():
+    print("Set your current savings.")
+    current_savings = float(input("How much money do you currently have saved? : $"))
+    json_savings_update(current_savings)
+    return current_savings
+
+
+# Manipulate Data
+
+def data_manipulation(expense_list):
+    print('\n'
+          'How would you like to manipulate the expense data? Please select an option below:\n'
+          '1) Check the number and total of expenses\n'
+          '2) Sort Expenses\n'
+          '3) Find Largest Expense\n'
+          '4) Find Smallest Expense\n \n'
+          'Enter anything else to close'
+          '\n')
+
+    user_choice = input("Selection: ")
+
+    match user_choice:
+        case '1':
+            os.system('cls')
+            expense_total(expense_list)
+        case '2':
+            os.system('cls')
+            expense_sort(expense_list)
+        case '3':
+            os.system('cls')
+            expense_find_largest(expense_list)
+        case '4':
+            os.system('cls')
+            expense_find_smallest(expense_list)
+        case other:
+            pass
+
+
+def expense_total(expense_list):
+    if not empty_list_check(expense_list):
+        total = 0
+        for i in expense_list:
+            total += i[1]
+
+        print("There are a total of " + str(len(expense_list)) + " expenses in the list.")
+        print("They total $" + str(total) + "/month")
+        input("Press Enter to continue...")
+
+
+def expense_sort(expense_list):
+    print('\n'
+          'How would you like to sort the data? Please select an option below:\n'
+          '1) Sort from least to greatest\n'
+          '2) Sort from greatest to least\n \n'
+          'Enter anything else to close'
+          '\n')
+
+    user_choice = input("Selection: ")
+
+    match user_choice:
+        case '1':
+            os.system('cls')
+            expense_list.sort()
+            print("Expenses Sorted!")
+            input("Press Enter to continue...")
+        case '2':
+            os.system('cls')
+            expense_list.sort(reverse=True)
+            print("Expenses Sorted!")
+            input("Press Enter to continue...")
+        case other:
+            pass
+
+
+def expense_find_largest(expense_list):
+    sorted_list_amount = []
+    for i in expense_list:
+        sorted_list_amount.append(i[1])
+
+    largest_expense = max(sorted_list_amount)
+    index = sorted_list_amount.index(largest_expense)
+    print(
+        f"The largest expense is {expense_list[index][0]}"
+        f"which is costing ${largest_expense}/month.")
+
+    input("Press Enter to Continue...")
+
+
+def expense_find_smallest(expense_list):
+    sorted_list_amount = []
+    for i in expense_list:
+        sorted_list_amount.append(i[1])
+
+    smallest_expense = min(sorted_list_amount)
+    index = sorted_list_amount.index(smallest_expense)
+    print(
+        f"The smallest expense is {expense_list[index][0]}"
+        f"which is costing ${smallest_expense}/month.")
+
+    input("Press Enter to Continue...")

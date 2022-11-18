@@ -263,6 +263,7 @@ def expense_sort(expense_list):
             if len(expense_list) == 0:
                 print("Whoops! There's nothing here yet! Try adding some expenses first.")
             else:
+                target = 0
                 sorted_list_name = []
                 sorted_list_amount = []
                 for i in expense_list:
@@ -273,7 +274,14 @@ def expense_sort(expense_list):
                 print('-----------------')
 
                 for i in range(len(expense_list)):
-                    print(f'Name: {sorted_list_name[i]}')
+                    target_found = False
+                    while not target_found:
+                        for j in range(len(expense_list)):
+                            if expense_list[j][1] == sorted_list_amount[i]:
+                                target = j
+                                target_found = True
+
+                    print(f'Name: {expense_list[target][0]}')
                     print(f'Cost: ${sorted_list_amount[i]}/month\n')
                     print('=========================================\n')
 
@@ -283,6 +291,7 @@ def expense_sort(expense_list):
             if len(expense_list) == 0:
                 print("Whoops! There's nothing here yet! Try adding some expenses first.")
             else:
+                target = 0
                 sorted_list_name = []
                 sorted_list_amount = []
                 for i in expense_list:
@@ -293,7 +302,14 @@ def expense_sort(expense_list):
                 print('-----------------')
 
                 for i in range(len(expense_list)):
-                    print(f'Name: {sorted_list_name[i]}')
+                    target_found = False
+                    while not target_found:
+                        for j in range(len(expense_list)):
+                            if expense_list[j][1] == sorted_list_amount[i]:
+                                target = j
+                                target_found = True
+
+                    print(f'Name: {expense_list[target][0]}')
                     print(f'Cost: ${sorted_list_amount[i]}/month\n')
                     print('=========================================\n')
 

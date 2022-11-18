@@ -1,6 +1,17 @@
 # This contains all the important functions for the main program
 import os
 import json
+from os import system, name
+
+
+def clear():
+    # For Windows
+    if name == 'nt':
+        _ = system('cls')
+
+    # For Mac and Linux
+    else:
+        _ = system('clear')
 
 
 def empty_list_check(expense_list):
@@ -28,7 +39,7 @@ def json_expense_update(expense_list):
     with open('json_expenses.txt', 'w') as f:
         f.write(json_expense_list)
 
-    os.system('cls')
+    clear()
     return
 
 
@@ -37,7 +48,7 @@ def json_income_update(monthly_income):
     with open('json_income.txt', 'w') as f:
         f.write(json_monthly_income)
 
-    os.system('cls')
+    clear()
     return
 
 
@@ -46,7 +57,7 @@ def json_savings_update(current_savings):
     with open('json_savings.txt', 'w') as f:
         f.write(json_current_savings)
 
-    os.system('cls')
+    clear()
     return
 
 
@@ -58,7 +69,7 @@ def expense_edit_choice(user_edit_choice, expense_list, editor):
             expense_list[user_edit_choice][0] = input('New Name: ')
             json_expense_update(expense_list)
 
-            os.system('cls')
+            clear()
             print('Name Changed!')
             input('Press Enter to continue...')
         case 2:
@@ -67,7 +78,7 @@ def expense_edit_choice(user_edit_choice, expense_list, editor):
             expense_list[user_edit_choice][1] = input_number("Cost: $")
             json_expense_update(expense_list)
 
-            os.system('cls')
+            clear()
             print('Cost Changed!')
             input('Press Enter to continue...')
 
@@ -84,6 +95,7 @@ def review_expenses(expense_list):
             print('=========================================\n')
 
     input('Press Enter to continue...')
+    clear()
     return
 
 
@@ -122,7 +134,7 @@ def edit_expenses(expense_list):
         print("Enter the number of the expense you would like to edit.")
         user_edit_choice = int(input("Selection: ")) - 1
 
-        os.system('cls')
+        clear()
         print("What about this expense would you like to edit?\n"
               "\n"
               f"1) Name: {expense_list[user_edit_choice][0]}\n"
@@ -130,7 +142,7 @@ def edit_expenses(expense_list):
 
         editor = float(input("Selection: "))
 
-        os.system('cls')
+        clear()
         expense_edit_choice(user_edit_choice, expense_list, editor)
 
 
@@ -209,16 +221,16 @@ def data_manipulation(expense_list):
 
     match user_choice:
         case '1':
-            os.system('cls')
+            clear()
             expense_total(expense_list)
         case '2':
-            os.system('cls')
+            clear()
             expense_sort(expense_list)
         case '3':
-            os.system('cls')
+            clear()
             expense_find_largest(expense_list)
         case '4':
-            os.system('cls')
+            clear()
             expense_find_smallest(expense_list)
         case other:
             pass
@@ -244,18 +256,49 @@ def expense_sort(expense_list):
           '\n')
 
     user_choice = input("Selection: ")
+    clear()
 
     match user_choice:
         case '1':
-            os.system('cls')
-            expense_list.sort()
-            print("Expenses Sorted!")
-            input("Press Enter to continue...")
+            if len(expense_list) == 0:
+                print("Whoops! There's nothing here yet! Try adding some expenses first.")
+            else:
+                sorted_list_name = []
+                sorted_list_amount = []
+                for i in expense_list:
+                    sorted_list_name.append(i[0])
+                    sorted_list_amount.append(i[1])
+                sorted_list_amount.sort()
+                print("Expenses Sorted!")
+                print('-----------------')
+
+                for i in range(len(expense_list)):
+                    print(f'Name: {sorted_list_name[i]}')
+                    print(f'Cost: ${sorted_list_amount[i]}/month\n')
+                    print('=========================================\n')
+
+            input('Press Enter to continue...')
+            clear()
         case '2':
-            os.system('cls')
-            expense_list.sort(reverse=True)
-            print("Expenses Sorted!")
-            input("Press Enter to continue...")
+            if len(expense_list) == 0:
+                print("Whoops! There's nothing here yet! Try adding some expenses first.")
+            else:
+                sorted_list_name = []
+                sorted_list_amount = []
+                for i in expense_list:
+                    sorted_list_name.append(i[0])
+                    sorted_list_amount.append(i[1])
+                sorted_list_amount.sort(reverse=True)
+                print("Expenses Sorted!")
+                print('-----------------')
+
+                for i in range(len(expense_list)):
+                    print(f'Name: {sorted_list_name[i]}')
+                    print(f'Cost: ${sorted_list_amount[i]}/month\n')
+                    print('=========================================\n')
+
+            input('Press Enter to continue...')
+            clear()
         case other:
             pass
 

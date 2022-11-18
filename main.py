@@ -45,31 +45,31 @@ while not end_program:
 
     match user_choice:
         case '1':
-            os.system('cls')
+            functions.clear()
             functions.review_expenses(list_of_expenses)
         case '2':
-            os.system('cls')
+            functions.clear()
             functions.add_expenses(list_of_expenses)
         case '3':
-            os.system('cls')
+            functions.clear()
             functions.edit_expenses(list_of_expenses)
         case '4':
-            os.system('cls')
+            functions.clear()
             functions.delete_expense(list_of_expenses)
         case '5':
-            os.system('cls')
+            functions.clear()
             monthly_income = functions.add_income()
         case '6':
-            os.system('cls')
+            functions.clear()
             current_savings = functions.set_current_savings()
         case '7':
-            os.system('cls')
+            functions.clear()
             plotting.plot_net_income(monthly_income, list_of_expenses, current_savings)
         case '8':
-            os.system('cls')
+            functions.clear()
             plotting.plot_expenses(list_of_expenses)
         case '9':
-            os.system('cls')
+            functions.clear()
             functions.data_manipulation(list_of_expenses)
         case other:
             end_program = True
